@@ -1,0 +1,10 @@
+{
+  "title": "Mod Manager",
+  "place": "none",
+  "overlay": {
+    "kind": "window",
+    "width": 740,
+    "height": 620,
+    "key": "mod-manager"
+  }
+}
