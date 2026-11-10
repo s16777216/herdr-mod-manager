@@ -1,6 +1,6 @@
 # Herdr Mod Manager
 
-A beautiful, standalone visual mod & overlay manager for the **[Herdr app](https://github.com/herdr/herdr-app)**.
+A clean, standalone visual mod and overlay manager for the **[Herdr app](https://github.com/herdr/herdr-app)**.
 
 ![Herdr Mod Manager Preview](./preview.png)
 
@@ -16,46 +16,38 @@ A beautiful, standalone visual mod & overlay manager for the **[Herdr app](https
 
 ---
 
-## 🚀 Installation
+## 🚀 Installation (Herdr Standard)
 
-### Automated Install (Recommended)
+This mod strictly follows the **[Herdr App Mod Sharing Specification](https://github.com/herdr/herdr-app#layouts-and-mods-other-people-made)**.
 
-#### Windows (PowerShell)
-```powershell
-git clone https://github.com/s16777216/herdr-mod-manager.git
-cd herdr-mod-manager
-.\install.ps1
-```
+### Method 1: Ask Your Agent (Official & Recommended)
+Tell any AI coding agent working in Herdr:
 
-#### macOS / Linux (Bash)
-```bash
-git clone https://github.com/s16777216/herdr-mod-manager.git
-cd herdr-mod-manager
-./install.sh
-```
+> *"Add mod `s16777216/herdr-mod-manager`"*
+>
+> or
+>
+> *"Install mod from `https://github.com/s16777216/herdr-mod-manager`"*
 
-### Manual Install
-Copy the `mods/mod-manager` folder directly into your Herdr configuration directory:
+Your agent will follow Herdr's official protocol:
+1. Read `RECIPE.md` to inspect safety, permissions, and dependencies.
+2. Copy `mods/mod-manager/` into your `~/.config/herdr-app/mods/mod-manager/`.
+3. Merge `keys.json` into your `~/.config/herdr-app/keys.json`.
+4. Verify the installation with `herdr-app check ~/.config/herdr-app/mods/mod-manager`.
+
+---
+
+### Method 2: Manual Installation
+
+#### 1. Copy the Mod Folder
+Clone or download this repository, then copy `mods/mod-manager` to your Herdr configuration directory:
 
 - **Windows**: `%USERPROFILE%\.config\herdr-app\mods\mod-manager`
 - **macOS / Linux**: `~/.config/herdr-app/mods/mod-manager`
 
-Verify installation:
-```bash
-herdr-app check ~/.config/herdr-app/mods/mod-manager
-```
+#### 2. Merge Shortcuts (`keys.json`)
+Add the following shortcut to your `~/.config/herdr-app/keys.json` under `"global"`:
 
----
-
-## 🎮 How to Open
-
-### 1. From Command Line or Terminal
-```bash
-herdr-app do mod.open --name mod-manager
-```
-
-### 2. Via Keyboard Shortcut
-Add a hotkey to your `~/.config/herdr-app/keys.json`:
 ```json
 {
   "global": {
@@ -64,25 +56,44 @@ Add a hotkey to your `~/.config/herdr-app/keys.json`:
 }
 ```
 
-### 3. Add to Sidebar (e.g. in your custom workspace-chrome mod)
-In your sidebar mod (such as `mods/my-workspace-chrome/main.js`):
+#### 3. Verify
+Run the official Herdr verification command:
+```bash
+herdr-app check ~/.config/herdr-app/mods/mod-manager
+```
+
+---
+
+## 🎮 How to Open
+
+### 1. Keyboard Shortcut
+Press **`Ctrl+Shift+M`** anywhere in Herdr.
+
+### 2. From Command Line or Terminal
+```bash
+herdr-app do mod.open --name mod-manager
+```
+
+### 3. Add to Sidebar (e.g. in `mods/my-workspace-chrome/main.js`)
 ```javascript
 import { run } from "herdr";
 
-// Add a button that calls:
+// Add a button calling:
 run("mod.open", { name: "mod-manager" });
 ```
 
 ---
 
-## 🛠️ Mod Structure
+## 🛠️ Repository Structure
+
+Mirrors the Herdr home directory layout:
 
 ```
 herdr-mod-manager/
-├── install.ps1          # Windows installer
-├── install.sh           # macOS / Linux installer
-├── preview.png          # Visual preview
-├── README.md
+├── RECIPE.md            # Herdr specification recipe
+├── preview.png          # Visual preview screenshot
+├── keys.json            # Default keyboard shortcuts
+├── README.md            # Documentation
 └── mods/
     └── mod-manager/
         ├── main.js      # Mod Manager standalone View
@@ -94,4 +105,4 @@ herdr-mod-manager/
 ---
 
 ## 📄 License
-MIT License. Feel free to use, modify, and distribute!
+MIT License. Feel free to use, customize, and share!
