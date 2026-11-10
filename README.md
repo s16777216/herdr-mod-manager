@@ -13,6 +13,7 @@ A clean, standalone visual mod and overlay manager for the **[Herdr app](https:/
 - **📑 Filter Tabs & Instant Search**: Filter by **All**, **In Active Layout**, **Custom**, **Disabled**, and **Shipped** mods, with instant full-text search across titles, descriptions, and file paths.
 - **📋 Shipped Mod Duplication**: Shipped mods in Herdr are read-only; duplicate any mod with a custom name to begin editing your own version.
 - **🔄 Rotating Refresh**: Dedicated icon button to instantly re-scan the mods directories.
+- **🔘 Companion Nav Button (`mods-nav-btn`)**: Includes an optional standalone sidebar button mod that sits cleanly in your layout without touching or overriding the shipped `workspace-chrome`!
 
 ---
 
@@ -31,7 +32,7 @@ Tell any AI coding agent working in Herdr:
 
 Your agent will follow Herdr's official protocol:
 1. Read `RECIPE.md` to inspect safety, permissions, and dependencies.
-2. Copy `mods/mod-manager/` into your `~/.config/herdr-app/mods/mod-manager/`.
+2. Copy `mods/mod-manager/` (and optionally `mods/mods-nav-btn/`) into your `~/.config/herdr-app/mods/`.
 3. Merge `keys.json` into your `~/.config/herdr-app/keys.json`.
 4. Verify the installation with `herdr-app check ~/.config/herdr-app/mods/mod-manager`.
 
@@ -39,19 +40,19 @@ Your agent will follow Herdr's official protocol:
 
 ### Method 2: Manual Installation
 
-#### 1. Copy the Mod Folder
-Clone or download this repository, then copy `mods/mod-manager` to your Herdr configuration directory:
+#### 1. Copy the Mod Folders
+Clone or download this repository, then copy the folders into your Herdr configuration directory:
 
-- **Windows**: `%USERPROFILE%\.config\herdr-app\mods\mod-manager`
-- **macOS / Linux**: `~/.config/herdr-app/mods/mod-manager`
+- **Windows**: Copy `mods/*` to `%USERPROFILE%\.config\herdr-app\mods\`
+- **macOS / Linux**: Copy `mods/*` to `~/.config/herdr-app/mods/`
 
 #### 2. Merge Shortcuts (`keys.json`)
-Add the following shortcut to your `~/.config/herdr-app/keys.json` under `"global"`:
+Add the shortcut to your `~/.config/herdr-app/keys.json` under `"global"`:
 
 ```json
 {
   "global": {
-    "ctrl-shift-m": "mod.open:mod-manager"
+    "alt-m": "mod.open:mod-manager"
   }
 }
 ```
@@ -67,19 +68,32 @@ herdr-app check ~/.config/herdr-app/mods/mod-manager
 ## 🎮 How to Open
 
 ### 1. Keyboard Shortcut
-Press **`Ctrl+Shift+M`** anywhere in Herdr.
+Press **`Alt+M`** anywhere in Herdr to toggle the window.
 
 ### 2. From Command Line or Terminal
 ```bash
 herdr-app do mod.open --name mod-manager
 ```
 
-### 3. Add to Sidebar (e.g. in `mods/my-workspace-chrome/main.js`)
-```javascript
-import { run } from "herdr";
+### 3. Add Standalone Button to Sidebar (Recommended)
+Add a dedicated 34px block in your layout JSON (e.g. `layouts/my-layout.json`) right above the footer block. You get a clean sidebar entry without modifying the shipped `workspace-chrome`:
 
-// Add a button calling:
-run("mod.open", { name: "mod-manager" });
+```json
+{
+  "id": "sidebar",
+  "type": "column",
+  "children": [
+    { "id": "brand", "content": { "mod": "workspace-chrome" } },
+    { "id": "sidebar-lists", ... },
+    {
+      "id": "sidebar-mods-btn",
+      "type": "block",
+      "content": { "mod": "mods-nav-btn" },
+      "size": { "px": 34 }
+    },
+    { "id": "sidebar-footer", "content": { "mod": "workspace-chrome", "props": { "footer": true } } }
+  ]
+}
 ```
 
 ---
@@ -92,14 +106,18 @@ Mirrors the Herdr home directory layout:
 herdr-mod-manager/
 ├── RECIPE.md            # Herdr specification recipe
 ├── preview.png          # Visual preview screenshot
-├── keys.json            # Default keyboard shortcuts
+├── keys.json            # Default keyboard shortcuts (Alt+M)
 ├── README.md            # Documentation
 └── mods/
-    └── mod-manager/
-        ├── main.js      # Mod Manager standalone View
-        ├── mod.json     # Overlay window definition
-        ├── layers.svg   # Window icon
-        └── refresh.svg  # Refresh icon
+    ├── mod-manager/     # Standalone Mod Manager window
+    │   ├── main.js
+    │   ├── mod.json
+    │   ├── layers.svg
+    │   └── refresh.svg
+    └── mods-nav-btn/    # Optional clean sidebar button mod
+        ├── main.js
+        ├── mod.json
+        └── layers.svg
 ```
 
 ---

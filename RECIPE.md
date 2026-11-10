@@ -52,6 +52,7 @@ The mod opens as an overlay window (`kind: "window"`, width 740px, height 620px)
 - **Herdr APIs**: `theme`, `layout`, `panes`, `shared`, `appHome`, `readTextFile`, `run`, `closeOverlay`, `props`.
 - **Node APIs**: `import * as fs from "fs/promises"`.
 - **Art**: `layers.svg`, `refresh.svg`.
+- **Companion Mod**: Optional `mods-nav-btn` providing a clean standalone sidebar button without overriding the shipped `workspace-chrome`.
 
 ## Watch out
 
