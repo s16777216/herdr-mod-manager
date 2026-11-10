@@ -18,34 +18,38 @@ const DEFAULT_FONT = "JetBrains Mono";
 const I = (name) => `mods/mod-manager/${name}.svg`;
 
 export default class ModManager extends View {
-  constructor() {
-    super();
+  init(_props, cx) {
     this.modList = null;
     this.modLoading = false;
     this.modError = null;
     this.modNotice = null;
     this.modFilter = "all";
     this.modQuery = "";
-    this.modSearchInput = InputState.new().placeholder("Filter mods…");
+    this.modSearchInput = InputState.new({ placeholder: "Filter mods…" });
+    this.modSearchInput.on("change", (_e, cx) => {
+      this.modQuery = this.modSearchInput.value();
+      cx.notify();
+    });
+
     this.modCloneEdit = null;
     this.modCloneInput = InputState.new();
     this.modCloneFocused = false;
-
-    this.modSearchInput.on_change((val) => {
-      this.modQuery = val;
-    });
-    this.modCloneInput.on_change((val) => {
-      if (this.modCloneEdit) this.modCloneEdit.as = val;
-    });
-    this.modCloneInput.on_focus_in(() => {
+    this.modCloneInput.on("focus", (_e, cx) => {
       this.modCloneFocused = true;
+      cx.notify();
     });
-    this.modCloneInput.on_focus_out(() => {
+    this.modCloneInput.on("blur", (_e, cx) => {
       this.modCloneFocused = false;
+      cx.notify();
     });
-  }
+    this.modCloneInput.on("change", (_e, cx) => {
+      if (this.modCloneEdit) this.modCloneEdit.as = this.modCloneInput.value();
+      cx.notify();
+    });
 
-  init(cx) {
+    this.handle = cx.focus_handle();
+    this.handle.focus();
+
     cx.spawn(async (cx) => {
       await this.loadMods();
       cx.notify();
